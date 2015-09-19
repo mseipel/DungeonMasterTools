@@ -35,8 +35,10 @@ namespace Dungeon_Master_Tools
             player.name = CharacterNameTextBox.Text;
             player.race = CharacterRaceTextBox.Text;
             player.primaryClass = CharacterClassTextBox.Text;
-            player.armorClass = Convert.ToInt32(CharacterArmorClassNum.Value);
-            player.hitPoints = Convert.ToInt32(CharacterHitPointsNum.Value);
+            player.subClass = null;
+            player.armorClass = (int)CharacterArmorClassNum.Value;
+            player.hitPoints = (int)CharacterHitPointsNum.Value;
+            player.currentHitPoints = (int)CharacterHitPointsNum.Value;
             player.level = Convert.ToInt32(CharacterArmorClassNum.Value);
             GameManagement.playerCharacters.Add(player);
             return true;

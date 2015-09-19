@@ -11,6 +11,7 @@ namespace Dungeon_Master_Tools
         public string name;
         public int level;
         public int experience;
+        public int currentHitPoints;
         public int hitPoints;
         public int armorClass;
         public string race;
@@ -25,6 +26,7 @@ namespace Dungeon_Master_Tools
             this.primaryClass = primaryClass;
             this.level = level;
             this.hitPoints = hitPoints;
+            currentHitPoints = hitPoints;
             this.armorClass = armorClass;
             subClass = null;
             active = true;
@@ -38,6 +40,7 @@ namespace Dungeon_Master_Tools
             subClass = null;
             level = 0;
             hitPoints = 0;
+            currentHitPoints = 0;
             armorClass = 0;
             experience = 0;
             active = true;

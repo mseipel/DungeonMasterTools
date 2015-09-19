@@ -60,7 +60,7 @@
             this.CharacterNameTextBox.Location = new System.Drawing.Point(54, 9);
             this.CharacterNameTextBox.Name = "CharacterNameTextBox";
             this.CharacterNameTextBox.Size = new System.Drawing.Size(218, 20);
-            this.CharacterNameTextBox.TabIndex = 1;
+            this.CharacterNameTextBox.TabIndex = 0;
             // 
             // CharacterLevelLabel
             // 
@@ -110,7 +110,7 @@
             this.CharacterRaceTextBox.Location = new System.Drawing.Point(163, 35);
             this.CharacterRaceTextBox.Name = "CharacterRaceTextBox";
             this.CharacterRaceTextBox.Size = new System.Drawing.Size(109, 20);
-            this.CharacterRaceTextBox.TabIndex = 11;
+            this.CharacterRaceTextBox.TabIndex = 4;
             // 
             // CharacterRaceLabel
             // 
@@ -134,23 +134,55 @@
             // CharacterLevelNum
             // 
             this.CharacterLevelNum.Location = new System.Drawing.Point(57, 35);
+            this.CharacterLevelNum.Maximum = new decimal(new int[] {
+            20,
+            0,
+            0,
+            0});
+            this.CharacterLevelNum.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             this.CharacterLevelNum.Name = "CharacterLevelNum";
             this.CharacterLevelNum.Size = new System.Drawing.Size(59, 20);
-            this.CharacterLevelNum.TabIndex = 13;
+            this.CharacterLevelNum.TabIndex = 1;
+            this.CharacterLevelNum.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             // 
             // CharacterHitPointsNum
             // 
             this.CharacterHitPointsNum.Location = new System.Drawing.Point(57, 61);
+            this.CharacterHitPointsNum.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            this.CharacterHitPointsNum.Minimum = new decimal(new int[] {
+            100,
+            0,
+            0,
+            -2147483648});
             this.CharacterHitPointsNum.Name = "CharacterHitPointsNum";
             this.CharacterHitPointsNum.Size = new System.Drawing.Size(59, 20);
-            this.CharacterHitPointsNum.TabIndex = 14;
+            this.CharacterHitPointsNum.TabIndex = 2;
+            this.CharacterHitPointsNum.Select(0, this.CharacterHitPointsNum.Value.ToString().Length);
             // 
             // CharacterArmorClassNum
             // 
             this.CharacterArmorClassNum.Location = new System.Drawing.Point(57, 87);
+            this.CharacterArmorClassNum.Maximum = new decimal(new int[] {
+            25,
+            0,
+            0,
+            0});
             this.CharacterArmorClassNum.Name = "CharacterArmorClassNum";
             this.CharacterArmorClassNum.Size = new System.Drawing.Size(59, 20);
-            this.CharacterArmorClassNum.TabIndex = 15;
+            this.CharacterArmorClassNum.TabIndex = 3;
+            this.CharacterArmorClassNum.Select(0, this.CharacterArmorClassNum.Value.ToString().Length);
             // 
             // AddCharacter
             // 
