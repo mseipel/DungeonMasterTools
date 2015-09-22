@@ -23,25 +23,58 @@ namespace Dungeon_Master_Tools
             {
                 this.Close();
             }
-            else
-            {
-                MessageBox.Show("Error in Character Creation.");
-            }
         }
 
         private bool CreateCharacter()
         {
             PlayerCharacter player = new PlayerCharacter();
-            player.name = CharacterNameTextBox.Text;
-            player.race = CharacterRaceTextBox.Text;
-            player.primaryClass = CharacterClassTextBox.Text;
-            player.subClass = null;
-            player.armorClass = (int)CharacterArmorClassNum.Value;
-            player.hitPoints = (int)CharacterHitPointsNum.Value;
-            player.currentHitPoints = (int)CharacterHitPointsNum.Value;
-            player.level = Convert.ToInt32(CharacterArmorClassNum.Value);
-            GameManagement.playerCharacters.Add(player);
-            return true;
+            try
+            {
+                //Name
+                if (CharacterNameTextBox.Text == String.Empty)
+                {
+                    throw new NoNullAllowedException("Name cannot be empty");
+                }
+                else
+                {
+                    player.name = CharacterNameTextBox.Text;
+                }
+
+                //Race
+                if (CharacterRaceTextBox.Text == String.Empty)
+                {
+                    throw new NoNullAllowedException("Race cannot be empty");
+                }
+                else
+                {
+                    player.race = CharacterRaceTextBox.Text;
+                }
+
+                //Class and Subclass
+                if (CharacterClassTextBox.Text == String.Empty)
+                {
+                    throw new NoNullAllowedException("Class cannot be empty");
+                }
+                else
+                {
+                    player.primaryClass = CharacterClassTextBox.Text;
+                    player.subClass = null;
+                }
+
+                //Get number values
+                player.armorClass = (int)CharacterArmorClassNum.Value;
+                player.hitPoints = (int)CharacterHitPointsNum.Value;
+                player.currentHitPoints = (int)CharacterHitPointsNum.Value;
+                player.level = Convert.ToInt32(CharacterArmorClassNum.Value);
+
+                //Create player
+                GameManagement.playerCharacters.Add(player);
+                return true;
+            }
+            catch(NoNullAllowedException e){
+                MessageBox.Show(e.Message);
+                return false;
+            }
         }
     }
 }

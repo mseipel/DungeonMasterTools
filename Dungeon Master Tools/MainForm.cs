@@ -12,12 +12,6 @@ namespace Dungeon_Master_Tools
 {
     public partial class MainForm : Form
     {
-        const int PLAYER_PANEL_WIDTH = 200;
-        const int PLAYER_NAME_TOP = 5;
-        const int PLAYER_HPL_TOP = 30;
-        const int PLAYER_HPD_TOP = 28;
-        const int PLAYER_HPD_LEFT = 35;
-
         public MainForm()
         {
             GameManagement.Initialize();
@@ -28,49 +22,53 @@ namespace Dungeon_Master_Tools
         {
             var form = new AddCharacter();
             form.ShowDialog(this);
-            RefreshPlayerCharactersPanel();
+            AddPlayerCharacterToPanel();
         }
 
         private void HealPlayerButton_Click(object sender, EventArgs e)
         {
-            try
-            {
-                int playerIndex = Convert.ToInt32(this.Name.Substring(this.Name.Length - 1));
-                PlayerCharacter player = GameManagement.playerCharacters[playerIndex];
-                player.hitPoints += Convert.ToInt32(this.Text);
-            }
-            catch (System.FormatException exception)
-            {
-                MessageBox.Show("Please enter a valid number.");
-            }
+            //Get control objects needed
+            Button b = (Button)sender;
+            int playerIndex = Convert.ToInt32(b.Name.Substring(b.Name.Length - 1));
+            TextBox hpMod = this.PlayerCharacterPanel.Controls.Find("HPModTextBox" + playerIndex, true).FirstOrDefault() as TextBox;
+            
+            //Get Player
+            PlayerCharacter player = GameManagement.playerCharacters[playerIndex];
+            player.currentHitPoints += Convert.ToInt32(hpMod.Text);
+            
+            //Update HPDisp
+            Label hpDisp = this.PlayerCharacterPanel.Controls.Find("HPDisp" + playerIndex, true).FirstOrDefault() as Label;
+            hpDisp.Text = String.Format("HP: {0}/{1}", player.currentHitPoints, player.hitPoints);
         }
 
         private void DamagePlayerButton_Click(object sender, EventArgs e)
         {
-            try
-            {
-                int playerIndex = Convert.ToInt32(this.Name.Substring(this.Name.Length - 1));
-                PlayerCharacter player = GameManagement.playerCharacters[playerIndex];
-                player.hitPoints -= Convert.ToInt32(this.Text);
-            }
-            catch (System.FormatException exception)
-            {
-                MessageBox.Show("Please enter a valid number.");
-            }
+            //Get control objects needed
+            Button b = (Button)sender;
+            int playerIndex = Convert.ToInt32(b.Name.Substring(b.Name.Length - 1));
+            TextBox hpMod = this.PlayerCharacterPanel.Controls.Find("HPModTextBox" + playerIndex, true).FirstOrDefault() as TextBox;
+
+            //Get Player
+            PlayerCharacter player = GameManagement.playerCharacters[playerIndex];
+            player.currentHitPoints -= Convert.ToInt32(hpMod.Text);
+
+            //Update HPDisp
+            Label hpDisp = this.PlayerCharacterPanel.Controls.Find("HPDisp" + playerIndex, true).FirstOrDefault() as Label;
+            hpDisp.Text = String.Format("HP: {0}/{1}", player.currentHitPoints, player.hitPoints);
         }
 
-        public void RefreshPlayerCharactersPanel()
-        {
-            PopulatePlayerCharactersPanel();
-            PlayerCharacterPanel.Refresh();
-        }
-
-        public void PopulatePlayerCharactersPanel()
+        public bool AddPlayerCharacterToPanel()
         {
             if(GameManagement.playerCharacters.Count != 0)
             {
                 int playerIndex = GameManagement.playerCharacters.Count-1;
                 PlayerCharacter player = GameManagement.playerCharacters[playerIndex];
+
+                if (this.PlayerCharacterPanel.Controls.Find("pcPanel" + player.name, true).Count() > 0)
+                {
+                    return false;
+                }
+
                 Panel pcPanel1 = new Panel();
                 pcPanel1.Parent = this.PlayerCharacterPanel;
                 
@@ -83,6 +81,7 @@ namespace Dungeon_Master_Tools
                 Button DamageBtn = new Button();
                 Button HealButton = new Button();
                 TextBox HPModTextBox = new TextBox();
+                
                 // 
                 // pcPanel1
                 // 
@@ -96,9 +95,10 @@ namespace Dungeon_Master_Tools
                 pcPanel1.Controls.Add(RaceClassDisp);
                 pcPanel1.Controls.Add(CharNameDisp);
                 pcPanel1.Location = new System.Drawing.Point(3, 3);
-                pcPanel1.Name = "pcPanel" + playerIndex;
+                pcPanel1.Name = "pcPanel" + player.name;
                 pcPanel1.Size = new System.Drawing.Size(219, 82);
                 pcPanel1.TabIndex = 0;
+                
                 // 
                 // CharNameDisp
                 // 
@@ -111,6 +111,7 @@ namespace Dungeon_Master_Tools
                 CharNameDisp.Text = player.name;
                 CharNameDisp.Parent = pcPanel1;
                 CharNameDisp.Show();
+                
                 // 
                 // RaceClassDisp
                 // 
@@ -119,6 +120,7 @@ namespace Dungeon_Master_Tools
                 RaceClassDisp.Name = "RaceClassDisp" + playerIndex;
                 RaceClassDisp.Size = new System.Drawing.Size(70, 13);
                 RaceClassDisp.TabIndex = 1;
+                
                 if(player.subClass == null)
                 {
                     RaceClassDisp.Text = String.Format("{0}, {1}", player.race, player.primaryClass);
@@ -127,8 +129,10 @@ namespace Dungeon_Master_Tools
                 {
                     RaceClassDisp.Text = String.Format("{0}, {1}/{2}", player.race, player.primaryClass, player.subClass);
                 }
+                
                 RaceClassDisp.Parent = pcPanel1;
                 RaceClassDisp.Show();
+                
                 // 
                 // HPDisp
                 // 
@@ -141,6 +145,7 @@ namespace Dungeon_Master_Tools
                 HPDisp.TextAlign = ContentAlignment.MiddleRight;
                 HPDisp.Parent = pcPanel1;
                 HPDisp.Show();
+                
                 // 
                 // LevelDisp
                 // 
@@ -152,6 +157,7 @@ namespace Dungeon_Master_Tools
                 LevelDisp.Text = String.Format("Level: {0}", player.level);
                 LevelDisp.Parent = pcPanel1;
                 LevelDisp.Show();
+
                 // 
                 // ArmorClassDisp
                 // 
@@ -176,6 +182,7 @@ namespace Dungeon_Master_Tools
                 MoreInfoButton.UseVisualStyleBackColor = true;
                 MoreInfoButton.Parent = pcPanel1;
                 MoreInfoButton.Show();
+                
                 // 
                 // HealButton
                 // 
@@ -188,6 +195,7 @@ namespace Dungeon_Master_Tools
                 HealButton.Parent = pcPanel1;
                 HealButton.Click += new System.EventHandler(this.HealPlayerButton_Click);
                 HealButton.Show();
+                
                 // 
                 // DamageBtn
                 // 
@@ -199,8 +207,8 @@ namespace Dungeon_Master_Tools
                 DamageBtn.UseVisualStyleBackColor = true;
                 DamageBtn.Parent = pcPanel1;
                 DamageBtn.Click += new System.EventHandler(this.DamagePlayerButton_Click);
-
                 DamageBtn.Show();
+                
                 // 
                 // HPModTextBox
                 // 
@@ -210,7 +218,20 @@ namespace Dungeon_Master_Tools
                 HPModTextBox.TabIndex = 6;
                 HPModTextBox.Parent = pcPanel1;
                 HPModTextBox.Show();
+
+                //Cleanup
+                CharNameDisp = null;
+                RaceClassDisp = null;
+                MoreInfoButton = null;
+                ArmorClassDisp = null;
+                LevelDisp = null;
+                HPDisp = null;
+                DamageBtn = null;
+                HealButton = null;
+                HPModTextBox = null;
             }
+
+            return true;
         }
     }
 }
