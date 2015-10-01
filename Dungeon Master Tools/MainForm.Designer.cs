@@ -225,6 +225,7 @@
             this.addCombatantButton.Name = "addCombatantButton";
             this.addCombatantButton.Size = new System.Drawing.Size(95, 22);
             this.addCombatantButton.Text = "Add Combatant";
+            this.addCombatantButton.Click += new System.EventHandler(this.addCombatantButton_Click);
             // 
             // tabPage2
             // 
@@ -290,14 +291,6 @@
         private System.Windows.Forms.ToolStripButton newCombatButton;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripButton addCombatantButton;
-        private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Button combatantInfo1;
-        private System.Windows.Forms.Button healButton1;
-        private System.Windows.Forms.Button damageButton1;
-        private System.Windows.Forms.TextBox damageTextBox1;
-        private System.Windows.Forms.Label combatantHP1;
-        private System.Windows.Forms.Label combatantAC1;
-        private System.Windows.Forms.Label combatantName1;
     }
 }
 

@@ -13,6 +13,8 @@ namespace Dungeon_Master_Tools
 {
     public partial class MainForm : Form
     {
+        private const int ROW_HEIGHT = 30;
+
         public MainForm()
         {
             GameManagement.Initialize();
@@ -335,130 +337,138 @@ namespace Dungeon_Master_Tools
 
         private void newCombatButton_Click(object sender, EventArgs e)
         {
-            const int ROW_HEIGHT = 30;
-
             for (int i = 0; i < GameManagement.playerCharacters.Count; i++)
             {
-                Panel combatantPanel = new System.Windows.Forms.Panel();
-                Button combatantInfo = new System.Windows.Forms.Button();
-                Button healButton = new System.Windows.Forms.Button();
-                Button damageButton = new System.Windows.Forms.Button();
-                TextBox damageTextBox = new System.Windows.Forms.TextBox();
-                Label combatantHP = new System.Windows.Forms.Label();
-                Label combatantAC = new System.Windows.Forms.Label();
-                Label combatantName = new System.Windows.Forms.Label();
-
-                this.combatTab.Controls.Add(combatantPanel);
-                combatantPanel.SuspendLayout();
-                // 
-                // combatantPanel
-                // 
-                combatantPanel.Controls.Add(combatantInfo);
-                combatantPanel.Controls.Add(healButton);
-                combatantPanel.Controls.Add(damageButton);
-                combatantPanel.Controls.Add(damageTextBox);
-                combatantPanel.Controls.Add(combatantHP);
-                combatantPanel.Controls.Add(combatantAC);
-                combatantPanel.Controls.Add(combatantName);
-                combatantPanel.Name = "combatantPanel" + i;
-                combatantPanel.Parent = this.combatTab;
-                combatantPanel.Size = new System.Drawing.Size(714, 30);
-                combatantPanel.Location = new System.Drawing.Point(6, 31 + (i * ROW_HEIGHT));
-                combatantPanel.BorderStyle = BorderStyle.FixedSingle;
-                combatantPanel.TabIndex = 1;
-                combatantPanel.Show();
-
-                if (i % 2 == 1)
-                {
-                    combatantPanel.BackColor = Color.LightBlue;
-                }
-                
-                // 
-                // combatantInfo
-                // 
-                combatantInfo.Name = "combatantInfo" + i;
-                combatantInfo.Size = new System.Drawing.Size(28, 23);
-                combatantInfo.Location = new System.Drawing.Point(683, 2);
-                combatantInfo.TabIndex = 6;
-                combatantInfo.Text = "...";
-                combatantInfo.UseVisualStyleBackColor = true;
-                combatantInfo.Parent = combatantPanel;
-                combatantInfo.Show();
-
-                // 
-                // healButton
-                // 
-                healButton.Name = "healButton" + i;
-                healButton.Size = new System.Drawing.Size(19, 23);
-                healButton.Location = new System.Drawing.Point(600, 2);
-                healButton.TabIndex = 5;
-                healButton.Text = "+";
-                healButton.UseVisualStyleBackColor = true;
-                healButton.Parent = combatantPanel;
-                healButton.Show();
-                
-                // 
-                // damageButton
-                // 
-                damageButton.Name = "damageButton" + i;
-                damageButton.Size = new System.Drawing.Size(19, 23);
-                damageButton.Location = new System.Drawing.Point(578, 2);
-                damageButton.TabIndex = 4;
-                damageButton.Text = "-";
-                damageButton.UseVisualStyleBackColor = true;
-                damageButton.Parent = combatantPanel;
-                damageButton.Show();
-
-                // 
-                // damageTextBox
-                // 
-                damageTextBox.Name = "damageTextBox" + i;
-                damageTextBox.Size = new System.Drawing.Size(45, 22);
-                damageTextBox.Location = new System.Drawing.Point(530, 2);
-                damageTextBox.TabIndex = 3;
-                damageButton.Parent = combatantPanel;
-                damageButton.Show();
-
-                // 
-                // combatantHP
-                // 
-                combatantHP.AutoSize = true;
-                combatantHP.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-                combatantHP.Name = "combatantHP" + i;
-                combatantHP.Size = new System.Drawing.Size(71, 23);
-                combatantHP.Location = new System.Drawing.Point(400, 2);
-                combatantHP.TabIndex = 2;
-                combatantHP.Text = String.Format("HP: {0}/{1}", GameManagement.playerCharacters[i].currentHitPoints, GameManagement.playerCharacters[i].hitPoints);
-                combatantHP.Parent = combatantPanel;
-                combatantHP.Show();
-
-                // 
-                // combatantAC
-                // 
-                combatantAC.AutoSize = true;
-                combatantAC.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-                combatantAC.Name = "combatantAC" + i;
-                combatantAC.Size = new System.Drawing.Size(60, 23);
-                combatantAC.Location = new System.Drawing.Point(300, 2);
-                combatantAC.TabIndex = 1;
-                combatantAC.Text = "AC: " + GameManagement.playerCharacters[i].armorClass;
-                combatantAC.Show();
-                // 
-                // combatantName
-                // 
-                combatantName.AutoSize = true;
-                combatantName.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-                combatantName.Name = "combatantName" + i;
-                combatantName.Size = new System.Drawing.Size(3, 23);
-                combatantName.Location = new System.Drawing.Point(3, 2);
-                combatantName.TabIndex = 0;
-                combatantName.Text = GameManagement.playerCharacters[i].name;
-                combatantName.Show();
-
-                // Resume Layout
-                combatantPanel.ResumeLayout(false);
-                combatantPanel.PerformLayout();
+                newPlayerCombatantUIRow(i);
             }
+        }
+
+        private void newPlayerCombatantUIRow(int i)
+        {
+            Panel combatantPanel = new System.Windows.Forms.Panel();
+            Button combatantInfo = new System.Windows.Forms.Button();
+            Button healButton = new System.Windows.Forms.Button();
+            Button damageButton = new System.Windows.Forms.Button();
+            TextBox damageTextBox = new System.Windows.Forms.TextBox();
+            Label combatantHP = new System.Windows.Forms.Label();
+            Label combatantAC = new System.Windows.Forms.Label();
+            Label combatantName = new System.Windows.Forms.Label();
+
+            this.combatTab.Controls.Add(combatantPanel);
+            combatantPanel.SuspendLayout();
+            // 
+            // combatantPanel
+            // 
+            combatantPanel.Controls.Add(combatantInfo);
+            combatantPanel.Controls.Add(healButton);
+            combatantPanel.Controls.Add(damageButton);
+            combatantPanel.Controls.Add(damageTextBox);
+            combatantPanel.Controls.Add(combatantHP);
+            combatantPanel.Controls.Add(combatantAC);
+            combatantPanel.Controls.Add(combatantName);
+            combatantPanel.Name = "combatantPanel" + i;
+            combatantPanel.Parent = this.combatTab;
+            combatantPanel.Size = new System.Drawing.Size(714, 30);
+            combatantPanel.Location = new System.Drawing.Point(6, 31 + (i * ROW_HEIGHT));
+            combatantPanel.BorderStyle = BorderStyle.FixedSingle;
+            combatantPanel.TabIndex = 1;
+            combatantPanel.Show();
+
+            if (i % 2 == 1)
+            {
+                combatantPanel.BackColor = Color.LightBlue;
+            }
+
+            // 
+            // combatantInfo
+            // 
+            combatantInfo.Name = "combatantInfo" + i;
+            combatantInfo.Size = new System.Drawing.Size(28, 23);
+            combatantInfo.Location = new System.Drawing.Point(683, 2);
+            combatantInfo.TabIndex = 6;
+            combatantInfo.Text = "...";
+            combatantInfo.UseVisualStyleBackColor = true;
+            combatantInfo.Parent = combatantPanel;
+            combatantInfo.Show();
+
+            // 
+            // healButton
+            // 
+            healButton.Name = "healButton" + i;
+            healButton.Size = new System.Drawing.Size(19, 23);
+            healButton.Location = new System.Drawing.Point(600, 2);
+            healButton.TabIndex = 5;
+            healButton.Text = "+";
+            healButton.UseVisualStyleBackColor = true;
+            healButton.Parent = combatantPanel;
+            healButton.Show();
+
+            // 
+            // damageButton
+            // 
+            damageButton.Name = "damageButton" + i;
+            damageButton.Size = new System.Drawing.Size(19, 23);
+            damageButton.Location = new System.Drawing.Point(578, 2);
+            damageButton.TabIndex = 4;
+            damageButton.Text = "-";
+            damageButton.UseVisualStyleBackColor = true;
+            damageButton.Parent = combatantPanel;
+            damageButton.Show();
+
+            // 
+            // damageTextBox
+            // 
+            damageTextBox.Name = "damageTextBox" + i;
+            damageTextBox.Size = new System.Drawing.Size(45, 22);
+            damageTextBox.Location = new System.Drawing.Point(530, 2);
+            damageTextBox.TabIndex = 3;
+            damageButton.Parent = combatantPanel;
+            damageButton.Show();
+
+            // 
+            // combatantHP
+            // 
+            combatantHP.AutoSize = true;
+            combatantHP.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            combatantHP.Name = "combatantHP" + i;
+            combatantHP.Size = new System.Drawing.Size(71, 23);
+            combatantHP.Location = new System.Drawing.Point(400, 2);
+            combatantHP.TabIndex = 2;
+            combatantHP.Text = String.Format("HP: {0}/{1}", GameManagement.playerCharacters[i].currentHitPoints, GameManagement.playerCharacters[i].hitPoints);
+            combatantHP.Parent = combatantPanel;
+            combatantHP.Show();
+
+            // 
+            // combatantAC
+            // 
+            combatantAC.AutoSize = true;
+            combatantAC.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            combatantAC.Name = "combatantAC" + i;
+            combatantAC.Size = new System.Drawing.Size(60, 23);
+            combatantAC.Location = new System.Drawing.Point(300, 2);
+            combatantAC.TabIndex = 1;
+            combatantAC.Text = "AC: " + GameManagement.playerCharacters[i].armorClass;
+            combatantAC.Show();
+            // 
+            // combatantName
+            // 
+            combatantName.AutoSize = true;
+            combatantName.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            combatantName.Name = "combatantName" + i;
+            combatantName.Size = new System.Drawing.Size(3, 23);
+            combatantName.Location = new System.Drawing.Point(3, 2);
+            combatantName.TabIndex = 0;
+            combatantName.Text = GameManagement.playerCharacters[i].name;
+            combatantName.Show();
+
+            // Resume Layout
+            combatantPanel.ResumeLayout(false);
+            combatantPanel.PerformLayout();
+        }
+
+        private void addCombatantButton_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
